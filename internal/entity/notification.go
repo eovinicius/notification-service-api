@@ -34,8 +34,12 @@ func NewNotification(recipientID uuid.UUID, content, category string) (*Notifica
 	return notification, nil
 }
 
-func (n *Notification) MarkAsRead() {
+func (n *Notification) Read() {
 	n.ReadAt = time.Now()
+}
+
+func (n *Notification) Unread() {
+	n.ReadAt = time.Time{}
 }
 
 func (n *Notification) Cancel() {

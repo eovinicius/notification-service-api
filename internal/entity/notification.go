@@ -13,6 +13,7 @@ type Notification struct {
 	Content     string    `json:"content"`
 	Category    string    `json:"category"`
 	ReadAt      time.Time `json:"read_at"`
+	CanceledAt  time.Time `json:"canceled_at"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
@@ -23,6 +24,7 @@ func NewNotification(recipientID uuid.UUID, content, category string) (*Notifica
 		Content:     content,
 		Category:    category,
 		ReadAt:      time.Time{},
+		CanceledAt:  time.Time{},
 		CreatedAt:   time.Now(),
 	}
 	if err := notification.validate(); err != nil {
@@ -34,6 +36,10 @@ func NewNotification(recipientID uuid.UUID, content, category string) (*Notifica
 
 func (n *Notification) MarkAsRead() {
 	n.ReadAt = time.Now()
+}
+
+func (n *Notification) Cancel() {
+	n.CanceledAt = time.Now()
 }
 
 func (n *Notification) validate() error {

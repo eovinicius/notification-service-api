@@ -42,3 +42,23 @@ func (r *NotificationRepository) Update(notification *entity.Notification) error
 
 	return nil
 }
+
+func (r *NotificationRepository) FindManyByRecipientID(recipientID string) ([]*entity.Notification, error) {
+	rows, err := r.Db.Query("SELECT id, recipient_id, content, category, read_at, created_at FROM notifications WHERE recipient_id = $1", recipientID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var notifications []*entity.Notification
+	for rows.Next() {
+		var notification entity.Notification
+		err := rows.Scan(&notification.ID, &notification.RecipientID, &notification.Content, &notification.Category, &notification.ReadAt, &notification.CreatedAt)
+		if err != nil {
+			return nil, err
+		}
+		notifications = append(notifications, &notification)
+	}
+
+	return notifications, nil
+}

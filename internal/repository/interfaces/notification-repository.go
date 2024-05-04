@@ -9,4 +9,5 @@ import (
 type NotificationRepository interface {
 	Save(notification *entity.Notification) error
 	FindByID(id uuid.UUID) (*entity.Notification, error)
+	Update(notification *entity.Notification) error
 }

@@ -1,16 +1,16 @@
 package usecases
 
 import (
-	"github/eovinicius/notification/internal/repository/interfaces"
+	"github/eovinicius/notification/internal/repository"
 
 	"github.com/google/uuid"
 )
 
 type CancelNotification struct {
-	NotificationRepository interfaces.NotificationRepository
+	NotificationRepository repository.NotificationRepository
 }
 
-func NewCancelNotification(notificationRepository interfaces.NotificationRepository) *CancelNotification {
+func NewCancelNotification(notificationRepository repository.NotificationRepository) *CancelNotification {
 	return &CancelNotification{
 		NotificationRepository: notificationRepository,
 	}

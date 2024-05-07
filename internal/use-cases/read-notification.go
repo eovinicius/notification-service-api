@@ -1,16 +1,16 @@
 package usecases
 
 import (
-	"github/eovinicius/notification/internal/repository/interfaces"
+	"github/eovinicius/notification/internal/repository"
 
 	"github.com/google/uuid"
 )
 
 type ReadNotification struct {
-	NotificationRepository interfaces.NotificationRepository
+	NotificationRepository repository.NotificationRepository
 }
 
-func NewReadNotification(notificationRepository interfaces.NotificationRepository) *ReadNotification {
+func NewReadNotification(notificationRepository repository.NotificationRepository) *ReadNotification {
 	return &ReadNotification{
 		NotificationRepository: notificationRepository,
 	}

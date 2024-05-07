@@ -2,16 +2,16 @@ package usecases
 
 import (
 	"github/eovinicius/notification/internal/entity"
-	"github/eovinicius/notification/internal/repository/interfaces"
+	"github/eovinicius/notification/internal/repository"
 
 	"github.com/google/uuid"
 )
 
 type SendNotification struct {
-	NotificationRepository interfaces.NotificationRepository
+	NotificationRepository repository.NotificationRepository
 }
 
-func NewSendNotification(notificationRepository interfaces.NotificationRepository) *SendNotification {
+func NewSendNotification(notificationRepository repository.NotificationRepository) *SendNotification {
 	return &SendNotification{
 		NotificationRepository: notificationRepository,
 	}

@@ -2,14 +2,14 @@ package usecases
 
 import (
 	"github/eovinicius/notification/internal/entity"
-	"github/eovinicius/notification/internal/repository/interfaces"
+	"github/eovinicius/notification/internal/repository"
 )
 
 type GetRecipientNotifications struct {
-	NotificationRepository interfaces.NotificationRepository
+	NotificationRepository repository.NotificationRepository
 }
 
-func NewGetRecipientNotifications(notificationRepository interfaces.NotificationRepository) *GetRecipientNotifications {
+func NewGetRecipientNotifications(notificationRepository repository.NotificationRepository) *GetRecipientNotifications {
 	return &GetRecipientNotifications{
 		NotificationRepository: notificationRepository,
 	}

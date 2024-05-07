@@ -2,6 +2,10 @@ package services
 
 import (
 	"net/smtp"
+	"os"
+	"time"
+
+	"github.com/joho/godotenv"
 )
 
 type EmailSender interface {
@@ -17,15 +21,44 @@ func NewEmailService() *emailService {
 
 func (es *emailService) SendEmail(to string, subject string, body string) error {
 
-	from := "john.doe@example.com"
+	_ = godotenv.Load(".env")
 
-	auth := smtp.PlainAuth("", " ", " ", "")
+	FROM := os.Getenv("SMTP_FROM")
+	PASSWORD := os.Getenv("SMTP_PASSWORD")
+	HOST := os.Getenv("SMTP_HOST")
 
-	err := smtp.SendMail("", auth, from, []string{to}, []byte(body))
+	auth := smtp.PlainAuth("", FROM, PASSWORD, HOST)
+
+	message := mail{
+		From:    FROM,
+		To:      to,
+		Subject: subject,
+		Date:    time.Now(),
+		Body:    body,
+	}
+
+	err := smtp.SendMail("", auth, FROM, []string{to}, message.toByte())
 
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+type mail struct {
+	From    string
+	To      string
+	Subject string
+	Date    time.Time
+	Body    string
+}
+
+func (m mail) toByte() []byte {
+	return []byte("From: " + m.From + "\r\n" +
+		"To: " + m.To + "\r\n" +
+		"Subject: " + m.Subject + "\r\n" +
+		"Date: " + m.Date.String() + "\r\n" +
+		"\r\n" +
+		m.Body)
 }

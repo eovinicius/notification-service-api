@@ -1,0 +1,20 @@
+version: "3"
+services:
+  postgres:
+    image: bitnami/postgresql:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: _
+      POSTGRES_PASSWORD: _
+      POSTGRES_DB: _
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: _
+      RABBITMQ_DEFAULT_PASS: _

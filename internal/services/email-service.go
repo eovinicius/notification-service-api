@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github/eovinicius/notification/internal/entity"
 	"net/smtp"
 	"os"
 	"time"
@@ -21,7 +22,7 @@ func NewEmailService() *emailService {
 
 func (es *emailService) SendEmail(to string, subject string, body string) error {
 
-	_ = godotenv.Load(".env")
+	_ = godotenv.Load()
 
 	FROM := os.Getenv("SMTP_FROM")
 	PASSWORD := os.Getenv("SMTP_PASSWORD")
@@ -29,7 +30,7 @@ func (es *emailService) SendEmail(to string, subject string, body string) error 
 
 	auth := smtp.PlainAuth("", FROM, PASSWORD, HOST)
 
-	message := mail{
+	message := entity.Mail{
 		From:    FROM,
 		To:      to,
 		Subject: subject,
@@ -37,28 +38,11 @@ func (es *emailService) SendEmail(to string, subject string, body string) error 
 		Body:    body,
 	}
 
-	err := smtp.SendMail("", auth, FROM, []string{to}, message.toByte())
+	err := smtp.SendMail("", auth, FROM, []string{to}, message.ToByte())
 
 	if err != nil {
 		return err
 	}
 
 	return nil
-}
-
-type mail struct {
-	From    string
-	To      string
-	Subject string
-	Date    time.Time
-	Body    string
-}
-
-func (m mail) toByte() []byte {
-	return []byte("From: " + m.From + "\r\n" +
-		"To: " + m.To + "\r\n" +
-		"Subject: " + m.Subject + "\r\n" +
-		"Date: " + m.Date.String() + "\r\n" +
-		"\r\n" +
-		m.Body)
 }

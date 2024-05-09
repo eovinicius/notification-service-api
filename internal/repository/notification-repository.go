@@ -33,7 +33,7 @@ func (r *notificationRepository) Save(notification *entity.Notification) error {
 	return nil
 }
 
-func (r *notificationRepository) FindByID(id string) (*entity.Notification, error) {
+func (r *notificationRepository) FindByID(id uuid.UUID) (*entity.Notification, error) {
 	var notification entity.Notification
 	err := r.Db.QueryRow("SELECT id, recipient_id, content, category, read_at, created_at FROM notifications WHERE id = $1", id).Scan(&notification.ID, &notification.RecipientID, &notification.Content, &notification.Category, &notification.ReadAt, &notification.CreatedAt)
 	if err != nil {

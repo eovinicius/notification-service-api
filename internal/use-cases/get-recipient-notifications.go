@@ -3,6 +3,8 @@ package usecases
 import (
 	"github/eovinicius/notification/internal/entity"
 	"github/eovinicius/notification/internal/repository"
+
+	"github.com/google/uuid"
 )
 
 type GetRecipientNotifications struct {
@@ -15,7 +17,7 @@ func NewGetRecipientNotifications(notificationRepository repository.Notification
 	}
 }
 
-func (grn *GetRecipientNotifications) Execute(recipientID string) ([]*entity.Notification, error) {
+func (grn *GetRecipientNotifications) Execute(recipientID uuid.UUID) ([]*entity.Notification, error) {
 	notifications, err := grn.NotificationRepository.FindManyByRecipientID(recipientID)
 	if err != nil {
 		return nil, err

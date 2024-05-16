@@ -10,6 +10,7 @@ import (
 type Notification struct {
 	ID          uuid.UUID `json:"id"`
 	RecipientID uuid.UUID `json:"recipient_id"`
+	Title       string    `json:"title"`
 	Content     string    `json:"content"`
 	Category    string    `json:"category"`
 	ReadAt      time.Time `json:"read_at"`
@@ -17,10 +18,11 @@ type Notification struct {
 	CreatedAt   time.Time `json:"created_at"`
 }
 
-func NewNotification(recipientID uuid.UUID, content, category string) (*Notification, error) {
+func NewNotification(recipientID uuid.UUID, title, content, category string) (*Notification, error) {
 	notification := &Notification{
 		ID:          uuid.New(),
 		RecipientID: recipientID,
+		Title:       title,
 		Content:     content,
 		Category:    category,
 		ReadAt:      time.Time{},
@@ -47,6 +49,12 @@ func (n *Notification) Cancel() {
 }
 
 func (n *Notification) validate() error {
+	if n.ID == uuid.Nil {
+		return fmt.Errorf("id is required")
+	}
+	if n.Title == "" {
+		return fmt.Errorf("title is required")
+	}
 	if n.RecipientID == uuid.Nil {
 		return fmt.Errorf("recipientID is required")
 	}

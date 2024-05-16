@@ -19,14 +19,14 @@ func NewSendNotification(notificationRepository repository.NotificationRepositor
 	}
 }
 
-func (sn *SendNotification) Execute(recipientID uuid.UUID, content, category string) error {
+func (sn *SendNotification) Execute(recipientID uuid.UUID, title, content, category string) error {
 
 	_, err := sn.NotificationRepository.FindByID(recipientID)
 	if err != nil {
 		return err
 	}
 
-	notification, err := entity.NewNotification(recipientID, content, category)
+	notification, err := entity.NewNotification(recipientID, title, content, category)
 	if err != nil {
 		return err
 	}

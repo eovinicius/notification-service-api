@@ -22,7 +22,7 @@ func (h *SendNotification) Handle(ctx *gin.Context) {
 		return
 	}
 
-	err := h.sendNotification.Execute(request.RecipientID, request.Content, request.Category)
+	err := h.sendNotification.Execute(request.RecipientID, request.Title, request.Content, request.Category)
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return

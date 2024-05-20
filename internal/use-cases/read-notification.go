@@ -16,9 +16,13 @@ func NewReadNotification(notificationRepository repository.NotificationRepositor
 	}
 }
 
-func (rn *ReadNotification) Execute(notificationID uuid.UUID) error {
+func (rn *ReadNotification) Execute(notificationID uuid.UUID, recipientId uuid.UUID) error {
 	notification, err := rn.NotificationRepository.FindByID(notificationID)
 	if err != nil {
+		return err
+	}
+
+	if notification.RecipientID != recipientId {
 		return err
 	}
 

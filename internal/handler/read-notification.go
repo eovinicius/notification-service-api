@@ -17,16 +17,16 @@ func NewReadNotification(readNotification *usecases.ReadNotification) *ReadNotif
 
 func (h *ReadNotification) Handle(ctx *gin.Context) {
 
-	recipientID := ctx.Param("notificationID")
+	id := ctx.Param("notificationID")
 
-	uuid, err := uuid.Parse(recipientID)
+	notificatonId, err := uuid.Parse(id)
 
 	if err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err = h.readNotification.Execute(uuid); err != nil {
+	if err = h.readNotification.Execute(notificatonId, uuid.New()); err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
